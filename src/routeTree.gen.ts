@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as EspecialidadesRouteImport } from './routes/especialidades'
 import { Route as MedicosRouteImport } from './routes/medicos'
@@ -17,6 +18,11 @@ import { Route as MedicosRouteImport } from './routes/medicos'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactoRoute = ContactoRouteImport.update({
@@ -37,12 +43,14 @@ const MedicosRoute = MedicosRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/contacto': typeof ContactoRoute
   '/especialidades': typeof EspecialidadesRoute
   '/medicos': typeof MedicosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/contacto': typeof ContactoRoute
   '/especialidades': typeof EspecialidadesRoute
   '/medicos': typeof MedicosRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/contacto': typeof ContactoRoute
   '/especialidades': typeof EspecialidadesRoute
   '/medicos': typeof MedicosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/contacto' | '/especialidades' | '/medicos'
+  fullPaths: '/' | '/auth' | '/contacto' | '/especialidades' | '/medicos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/contacto' | '/especialidades' | '/medicos'
-  id: '__root__' | '/' | '/contacto' | '/especialidades' | '/medicos'
+  to: '/' | '/auth' | '/contacto' | '/especialidades' | '/medicos'
+  id: '__root__' | '/' | '/auth' | '/contacto' | '/especialidades' | '/medicos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   ContactoRoute: typeof ContactoRoute
   EspecialidadesRoute: typeof EspecialidadesRoute
   MedicosRoute: typeof MedicosRoute
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contacto': {
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   ContactoRoute: ContactoRoute,
   EspecialidadesRoute: EspecialidadesRoute,
   MedicosRoute: MedicosRoute,
