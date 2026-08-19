@@ -14,16 +14,288 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      disponibilidades: {
+        Row: {
+          created_at: string
+          dia_semana: number
+          duracion_min: number
+          hora_fin: string
+          hora_inicio: string
+          id: string
+          medico_id: string
+        }
+        Insert: {
+          created_at?: string
+          dia_semana: number
+          duracion_min?: number
+          hora_fin: string
+          hora_inicio: string
+          id?: string
+          medico_id: string
+        }
+        Update: {
+          created_at?: string
+          dia_semana?: number
+          duracion_min?: number
+          hora_fin?: string
+          hora_inicio?: string
+          id?: string
+          medico_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "disponibilidades_medico_id_fkey"
+            columns: ["medico_id"]
+            isOneToOne: false
+            referencedRelation: "medicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      especialidades: {
+        Row: {
+          activa: boolean
+          created_at: string
+          descripcion: string
+          icono: string
+          id: string
+          nombre: string
+        }
+        Insert: {
+          activa?: boolean
+          created_at?: string
+          descripcion?: string
+          icono?: string
+          id?: string
+          nombre: string
+        }
+        Update: {
+          activa?: boolean
+          created_at?: string
+          descripcion?: string
+          icono?: string
+          id?: string
+          nombre?: string
+        }
+        Relationships: []
+      }
+      medicos: {
+        Row: {
+          activo: boolean
+          apellido: string
+          bio: string
+          created_at: string
+          especialidad_id: string
+          foto_url: string | null
+          id: string
+          matricula: string
+          nombre: string
+          precio_consulta: number
+        }
+        Insert: {
+          activo?: boolean
+          apellido: string
+          bio?: string
+          created_at?: string
+          especialidad_id: string
+          foto_url?: string | null
+          id?: string
+          matricula?: string
+          nombre: string
+          precio_consulta?: number
+        }
+        Update: {
+          activo?: boolean
+          apellido?: string
+          bio?: string
+          created_at?: string
+          especialidad_id?: string
+          foto_url?: string | null
+          id?: string
+          matricula?: string
+          nombre?: string
+          precio_consulta?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "medicos_especialidad_id_fkey"
+            columns: ["especialidad_id"]
+            isOneToOne: false
+            referencedRelation: "especialidades"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notas_clinicas: {
+        Row: {
+          autor_id: string
+          contenido: string
+          created_at: string
+          id: string
+          paciente_id: string
+          turno_id: string | null
+        }
+        Insert: {
+          autor_id: string
+          contenido: string
+          created_at?: string
+          id?: string
+          paciente_id: string
+          turno_id?: string | null
+        }
+        Update: {
+          autor_id?: string
+          contenido?: string
+          created_at?: string
+          id?: string
+          paciente_id?: string
+          turno_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notas_clinicas_turno_id_fkey"
+            columns: ["turno_id"]
+            isOneToOne: false
+            referencedRelation: "turnos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          apellido: string
+          created_at: string
+          dni: string | null
+          email: string | null
+          fecha_nacimiento: string | null
+          id: string
+          nombre: string
+          obra_social: string | null
+          telefono: string | null
+          updated_at: string
+        }
+        Insert: {
+          apellido?: string
+          created_at?: string
+          dni?: string | null
+          email?: string | null
+          fecha_nacimiento?: string | null
+          id: string
+          nombre?: string
+          obra_social?: string | null
+          telefono?: string | null
+          updated_at?: string
+        }
+        Update: {
+          apellido?: string
+          created_at?: string
+          dni?: string | null
+          email?: string | null
+          fecha_nacimiento?: string | null
+          id?: string
+          nombre?: string
+          obra_social?: string | null
+          telefono?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      turnos: {
+        Row: {
+          created_at: string
+          duracion_min: number
+          estado: Database["public"]["Enums"]["estado_turno"]
+          fecha_hora: string
+          id: string
+          medico_id: string
+          motivo: string
+          obra_social: string | null
+          paciente_id: string
+          recordatorio_enviado: boolean
+          token_confirmacion: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          duracion_min?: number
+          estado?: Database["public"]["Enums"]["estado_turno"]
+          fecha_hora: string
+          id?: string
+          medico_id: string
+          motivo?: string
+          obra_social?: string | null
+          paciente_id: string
+          recordatorio_enviado?: boolean
+          token_confirmacion?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          duracion_min?: number
+          estado?: Database["public"]["Enums"]["estado_turno"]
+          fecha_hora?: string
+          id?: string
+          medico_id?: string
+          motivo?: string
+          obra_social?: string | null
+          paciente_id?: string
+          recordatorio_enviado?: boolean
+          token_confirmacion?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "turnos_medico_id_fkey"
+            columns: ["medico_id"]
+            isOneToOne: false
+            referencedRelation: "medicos"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_staff: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin" | "staff" | "paciente"
+      estado_turno:
+        | "solicitado"
+        | "confirmado"
+        | "cancelado"
+        | "atendido"
+        | "ausente"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +422,15 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin", "staff", "paciente"],
+      estado_turno: [
+        "solicitado",
+        "confirmado",
+        "cancelado",
+        "atendido",
+        "ausente",
+      ],
+    },
   },
 } as const
