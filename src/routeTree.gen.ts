@@ -14,6 +14,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as EspecialidadesRouteImport } from './routes/especialidades'
 import { Route as MedicosRouteImport } from './routes/medicos'
+import { Route as MisTurnosRouteImport } from './routes/mis-turnos'
 import { Route as TurnosRouteImport } from './routes/turnos'
 
 const IndexRoute = IndexRouteImport.update({
@@ -41,6 +42,11 @@ const MedicosRoute = MedicosRouteImport.update({
   path: '/medicos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MisTurnosRoute = MisTurnosRouteImport.update({
+  id: '/mis-turnos',
+  path: '/mis-turnos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TurnosRoute = TurnosRouteImport.update({
   id: '/turnos',
   path: '/turnos',
@@ -53,6 +59,7 @@ export interface FileRoutesByFullPath {
   '/contacto': typeof ContactoRoute
   '/especialidades': typeof EspecialidadesRoute
   '/medicos': typeof MedicosRoute
+  '/mis-turnos': typeof MisTurnosRoute
   '/turnos': typeof TurnosRoute
 }
 export interface FileRoutesByTo {
@@ -61,6 +68,7 @@ export interface FileRoutesByTo {
   '/contacto': typeof ContactoRoute
   '/especialidades': typeof EspecialidadesRoute
   '/medicos': typeof MedicosRoute
+  '/mis-turnos': typeof MisTurnosRoute
   '/turnos': typeof TurnosRoute
 }
 export interface FileRoutesById {
@@ -70,14 +78,28 @@ export interface FileRoutesById {
   '/contacto': typeof ContactoRoute
   '/especialidades': typeof EspecialidadesRoute
   '/medicos': typeof MedicosRoute
+  '/mis-turnos': typeof MisTurnosRoute
   '/turnos': typeof TurnosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/contacto' | '/especialidades' | '/medicos' | '/turnos'
+    | '/'
+    | '/auth'
+    | '/contacto'
+    | '/especialidades'
+    | '/medicos'
+    | '/mis-turnos'
+    | '/turnos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/contacto' | '/especialidades' | '/medicos' | '/turnos'
+  to:
+    | '/'
+    | '/auth'
+    | '/contacto'
+    | '/especialidades'
+    | '/medicos'
+    | '/mis-turnos'
+    | '/turnos'
   id:
     | '__root__'
     | '/'
@@ -85,6 +107,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/especialidades'
     | '/medicos'
+    | '/mis-turnos'
     | '/turnos'
   fileRoutesById: FileRoutesById
 }
@@ -94,6 +117,7 @@ export interface RootRouteChildren {
   ContactoRoute: typeof ContactoRoute
   EspecialidadesRoute: typeof EspecialidadesRoute
   MedicosRoute: typeof MedicosRoute
+  MisTurnosRoute: typeof MisTurnosRoute
   TurnosRoute: typeof TurnosRoute
 }
 
@@ -134,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MedicosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mis-turnos': {
+      id: '/mis-turnos'
+      path: '/mis-turnos'
+      fullPath: '/mis-turnos'
+      preLoaderRoute: typeof MisTurnosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/turnos': {
       id: '/turnos'
       path: '/turnos'
@@ -150,6 +181,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactoRoute: ContactoRoute,
   EspecialidadesRoute: EspecialidadesRoute,
   MedicosRoute: MedicosRoute,
+  MisTurnosRoute: MisTurnosRoute,
   TurnosRoute: TurnosRoute,
 }
 export const routeTree = rootRouteImport
