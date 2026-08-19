@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as EspecialidadesRouteImport } from './routes/especialidades'
 import { Route as MedicosRouteImport } from './routes/medicos'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactoRoute = ContactoRouteImport.update({
+  id: '/contacto',
+  path: '/contacto',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EspecialidadesRoute = EspecialidadesRouteImport.update({
@@ -31,30 +37,34 @@ const MedicosRoute = MedicosRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contacto': typeof ContactoRoute
   '/especialidades': typeof EspecialidadesRoute
   '/medicos': typeof MedicosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contacto': typeof ContactoRoute
   '/especialidades': typeof EspecialidadesRoute
   '/medicos': typeof MedicosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contacto': typeof ContactoRoute
   '/especialidades': typeof EspecialidadesRoute
   '/medicos': typeof MedicosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/especialidades' | '/medicos'
+  fullPaths: '/' | '/contacto' | '/especialidades' | '/medicos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/especialidades' | '/medicos'
-  id: '__root__' | '/' | '/especialidades' | '/medicos'
+  to: '/' | '/contacto' | '/especialidades' | '/medicos'
+  id: '__root__' | '/' | '/contacto' | '/especialidades' | '/medicos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactoRoute: typeof ContactoRoute
   EspecialidadesRoute: typeof EspecialidadesRoute
   MedicosRoute: typeof MedicosRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacto': {
+      id: '/contacto'
+      path: '/contacto'
+      fullPath: '/contacto'
+      preLoaderRoute: typeof ContactoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/especialidades': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactoRoute: ContactoRoute,
   EspecialidadesRoute: EspecialidadesRoute,
   MedicosRoute: MedicosRoute,
 }
