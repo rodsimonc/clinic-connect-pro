@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as EspecialidadesRouteImport } from './routes/especialidades'
+import { Route as MedicosRouteImport } from './routes/medicos'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const EspecialidadesRoute = EspecialidadesRouteImport.update({
   path: '/especialidades',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MedicosRoute = MedicosRouteImport.update({
+  id: '/medicos',
+  path: '/medicos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/especialidades': typeof EspecialidadesRoute
+  '/medicos': typeof MedicosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/especialidades': typeof EspecialidadesRoute
+  '/medicos': typeof MedicosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/especialidades': typeof EspecialidadesRoute
+  '/medicos': typeof MedicosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/especialidades'
+  fullPaths: '/' | '/especialidades' | '/medicos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/especialidades'
-  id: '__root__' | '/' | '/especialidades'
+  to: '/' | '/especialidades' | '/medicos'
+  id: '__root__' | '/' | '/especialidades' | '/medicos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   EspecialidadesRoute: typeof EspecialidadesRoute
+  MedicosRoute: typeof MedicosRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EspecialidadesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/medicos': {
+      id: '/medicos'
+      path: '/medicos'
+      fullPath: '/medicos'
+      preLoaderRoute: typeof MedicosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   EspecialidadesRoute: EspecialidadesRoute,
+  MedicosRoute: MedicosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
