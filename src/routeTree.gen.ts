@@ -10,33 +10,128 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as ContactoRouteImport } from './routes/contacto'
+import { Route as EspecialidadesRouteImport } from './routes/especialidades'
+import { Route as MedicosRouteImport } from './routes/medicos'
+import { Route as MisTurnosRouteImport } from './routes/mis-turnos'
+import { Route as TurnosRouteImport } from './routes/turnos'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactoRoute = ContactoRouteImport.update({
+  id: '/contacto',
+  path: '/contacto',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EspecialidadesRoute = EspecialidadesRouteImport.update({
+  id: '/especialidades',
+  path: '/especialidades',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MedicosRoute = MedicosRouteImport.update({
+  id: '/medicos',
+  path: '/medicos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MisTurnosRoute = MisTurnosRouteImport.update({
+  id: '/mis-turnos',
+  path: '/mis-turnos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TurnosRoute = TurnosRouteImport.update({
+  id: '/turnos',
+  path: '/turnos',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
+  '/contacto': typeof ContactoRoute
+  '/especialidades': typeof EspecialidadesRoute
+  '/medicos': typeof MedicosRoute
+  '/mis-turnos': typeof MisTurnosRoute
+  '/turnos': typeof TurnosRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
+  '/contacto': typeof ContactoRoute
+  '/especialidades': typeof EspecialidadesRoute
+  '/medicos': typeof MedicosRoute
+  '/mis-turnos': typeof MisTurnosRoute
+  '/turnos': typeof TurnosRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRoute
+  '/auth': typeof AuthRoute
+  '/contacto': typeof ContactoRoute
+  '/especialidades': typeof EspecialidadesRoute
+  '/medicos': typeof MedicosRoute
+  '/mis-turnos': typeof MisTurnosRoute
+  '/turnos': typeof TurnosRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/contacto'
+    | '/especialidades'
+    | '/medicos'
+    | '/mis-turnos'
+    | '/turnos'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/contacto'
+    | '/especialidades'
+    | '/medicos'
+    | '/mis-turnos'
+    | '/turnos'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/auth'
+    | '/contacto'
+    | '/especialidades'
+    | '/medicos'
+    | '/mis-turnos'
+    | '/turnos'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRoute
+  AuthRoute: typeof AuthRoute
+  ContactoRoute: typeof ContactoRoute
+  EspecialidadesRoute: typeof EspecialidadesRoute
+  MedicosRoute: typeof MedicosRoute
+  MisTurnosRoute: typeof MisTurnosRoute
+  TurnosRoute: typeof TurnosRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +143,67 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacto': {
+      id: '/contacto'
+      path: '/contacto'
+      fullPath: '/contacto'
+      preLoaderRoute: typeof ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/especialidades': {
+      id: '/especialidades'
+      path: '/especialidades'
+      fullPath: '/especialidades'
+      preLoaderRoute: typeof EspecialidadesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/medicos': {
+      id: '/medicos'
+      path: '/medicos'
+      fullPath: '/medicos'
+      preLoaderRoute: typeof MedicosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mis-turnos': {
+      id: '/mis-turnos'
+      path: '/mis-turnos'
+      fullPath: '/mis-turnos'
+      preLoaderRoute: typeof MisTurnosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/turnos': {
+      id: '/turnos'
+      path: '/turnos'
+      fullPath: '/turnos'
+      preLoaderRoute: typeof TurnosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRoute,
+  AuthRoute: AuthRoute,
+  ContactoRoute: ContactoRoute,
+  EspecialidadesRoute: EspecialidadesRoute,
+  MedicosRoute: MedicosRoute,
+  MisTurnosRoute: MisTurnosRoute,
+  TurnosRoute: TurnosRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
