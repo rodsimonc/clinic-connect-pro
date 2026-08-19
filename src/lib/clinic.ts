@@ -97,7 +97,7 @@ export function toDateKey(date: Date) {
 
 export function parseDateKey(key: string) {
   const [y, m, d] = key.split("-").map(Number);
-  return new Date(y, (m ?? 1) - 1, d ?? 1);
+  return new Date(y ?? 1970, (m ?? 1) - 1, d ?? 1);
 }
 
 export function formatFechaLarga(value: string | Date) {
