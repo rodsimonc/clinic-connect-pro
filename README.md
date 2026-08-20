@@ -1,24 +1,89 @@
 # Clinic Connect Pro
 
-Tenés acceso a mí github, ahí hay un proyecto para una página para clinicas con especificaciones. Escalalo
+Aplicación web para una clínica: sitio institucional + reserva de turnos médicos
+online. Los pacientes pueden ver especialidades y profesionales, reservar y
+gestionar sus turnos; el panel de administración gestiona la operación.
 
-This project was built with [Lovable](https://lovable.dev).
+Construido con **TanStack Start** (React 19 + SSR), **TypeScript**, **Vite**,
+**Tailwind CSS v4** con componentes **shadcn/ui**, y **Supabase** (Postgres +
+Auth) como backend. El proyecto se desarrolla de forma híbrida entre
+[Lovable](https://lovable.dev) y edición local/agentes de IA.
 
-## Build with Lovable
+## Stack
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/e6e0fe2f-9fc8-40f7-b334-bc75e7e560ba).
+| Capa            | Tecnología                                  |
+| --------------- | ------------------------------------------- |
+| Framework       | TanStack Start (React 19, SSR con Nitro)    |
+| Lenguaje        | TypeScript (modo `strict`)                  |
+| Ruteo           | TanStack Router (file-based, `src/routes/`) |
+| Datos (cliente) | TanStack Query                              |
+| Estilos         | Tailwind CSS v4 + shadcn/ui (estilo new-york)|
+| Backend         | Supabase (Postgres, Auth, RLS)              |
+| Build tool      | Vite 8                                       |
+| Package manager | Bun                                          |
+| Lint / Formato  | ESLint + Prettier                           |
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+## Requisitos
 
-## Development
+- [Bun](https://bun.sh) ≥ 1.1 (o Node.js ≥ 20 con npm; el repo usa `bun.lock`).
+- Un proyecto de [Supabase](https://supabase.com) con las tablas de la clínica.
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+## Puesta en marcha
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
-npm run dev
+git clone https://github.com/rodsimonc/clinic-connect-pro.git
+cd clinic-connect-pro
+bun install
+cp .env.example .env   # completá tus credenciales de Supabase
+bun run dev
 ```
+
+La app queda disponible en `http://localhost:3000`.
+
+## Scripts
+
+| Comando            | Descripción                                  |
+| ------------------ | -------------------------------------------- |
+| `bun run dev`      | Servidor de desarrollo con HMR.              |
+| `bun run build`    | Build de producción.                         |
+| `bun run preview`  | Sirve el build de producción localmente.     |
+| `bun run lint`     | ESLint sobre todo el proyecto.               |
+| `bun run format`   | Prettier en modo corrección.                 |
+
+## Estructura del proyecto
+
+```
+clinic-connect-pro/
+├── src/
+│   ├── routes/            # Rutas file-based (TanStack Router)
+│   ├── components/
+│   │   ├── ui/            # Componentes shadcn/ui
+│   │   └── site/          # Header, Footer y layout del sitio
+│   ├── integrations/
+│   │   └── supabase/      # Cliente, auth y tipos generados
+│   ├── lib/               # Dominio, queries y utilidades
+│   ├── hooks/             # Hooks reutilizables
+│   └── styles.css         # Design tokens (Tailwind v4 @theme)
+├── supabase/
+│   ├── config.toml
+│   └── migrations/        # Migraciones SQL
+├── AGENTS.md              # Convenciones para agentes de IA
+├── CLAUDE.md              # Contexto para Claude Code
+├── DESIGN.md             # Sistema de diseño y estándares de UI
+└── specs.md              # Contrato de especificación del proyecto
+```
+
+## Documentación para agentes de IA
+
+Este repo se trabaja con asistentes de IA. Antes de generar o modificar código,
+leé [`AGENTS.md`](./AGENTS.md), [`CLAUDE.md`](./CLAUDE.md) y
+[`DESIGN.md`](./DESIGN.md). El contrato del proyecto vive en
+[`specs.md`](./specs.md) y el historial de cambios en
+[`CHANGELOG.md`](./CHANGELOG.md).
+
+## Lovable
+
+Este proyecto está conectado a [Lovable](https://lovable.dev). Cada cambio
+mergeado a `main` en GitHub se sincroniza de vuelta al editor de Lovable. Para no
+perder el historial del proyecto, evitá reescribir historia ya publicada
+(force-push, rebase o squash de commits ya pusheados).

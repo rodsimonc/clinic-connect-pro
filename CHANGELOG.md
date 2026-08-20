@@ -1,0 +1,69 @@
+# Changelog
+
+Todos los cambios notables de este proyecto se documentan acá.
+Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.0.0/)
+y [Versionado Semántico](https://semver.org/lang/es/).
+
+## [No publicado] — 2026-08-20
+
+Adecuación del repositorio a la estructura de referencia del bootcamp
+(`Bootcamp-main/examples-md`) y a buenas prácticas. Cambios de documentación,
+configuración e higiene; **no se modificó lógica de la aplicación** para no
+alterar el sync con Lovable.
+
+### Added
+
+- `CLAUDE.md` — contexto para Claude Code adaptado al stack real (TanStack Start + Supabase).
+- `DESIGN.md` — sistema de diseño y estándares de UI, referenciando los tokens de `src/styles.css`.
+- `specs.md` — contrato de especificación del proyecto (stack, estructura, convenciones, decisiones).
+- `.env.example` — plantilla de variables de entorno con valores placeholder.
+- `.github/workflows/ci.yml` — CI en GitHub Actions (lint + build con Bun).
+- `CHANGELOG.md` — este archivo, como registro de cambios.
+
+### Changed
+
+- `AGENTS.md` — se conservó el bloque de Lovable y se completó con las
+  convenciones del bootcamp adaptadas al stack (alcance autorizado, estilo de
+  commits, verificación con `bun run lint`/`build`, convenciones técnicas).
+- `README.md` — reescrito: se eliminó una línea de prompt pegada por error
+  ("Tenés acceso a mí github…") y se documentó objetivo, stack, setup, scripts y estructura.
+- `.gitignore` — se agregó `.env` y variantes para evitar subir secretos.
+
+### Security
+
+- Se dejó de trackear `.env` (`git rm --cached .env`). Contenía la URL y la
+  *publishable/anon key* de Supabase. Esa key es pública por diseño (la
+  seguridad depende de RLS), pero la buena práctica es no versionarla. El archivo
+  local se mantiene para que la app siga corriendo.
+
+---
+
+## Decisiones tomadas (opción elegida vs. alternativas)
+
+Según lo pedido, se registran las decisiones donde había más de una opción razonable:
+
+1. **Acceso al repo (push).** El entorno no tiene credenciales del repo privado.
+   - Elegido: se consultó y Carlos puso el repo en **público** para poder clonar.
+   - Para el push quedan dos vías (a resolver con Carlos): agregar el repo a las
+     *sources* autorizadas de la sesión, o proveer un PAT. Alternativa descartada
+     por ahora: descargar/pushear vía navegador (poco práctico para muchos archivos).
+
+2. **`.env` versionado.** Elegido: `git rm --cached` + `.gitignore` + `.env.example`.
+   - Alternativas descartadas: (a) borrar la key del historial con filter-repo
+     —descartada por ser reescritura de historia, rompe el sync con Lovable—;
+     (b) dejar `.env` como estaba —descartada por mala práctica—.
+   - Recomendación: si se quiere, rotar la publishable key en Supabase.
+
+3. **Alcance de los cambios.** Elegido: cambios **aditivos** de docs/config/higiene,
+   sin tocar código de features ni migraciones.
+   - Alternativa descartada: refactor de código fuente —descartada porque el
+     código ya está prolijo y un refactor arriesgaría el sync con Lovable y saldría
+     del pedido ("cumplir la estructura y buenas prácticas").
+
+4. **CI/CD.** Elegido: agregar `.github/workflows/ci.yml` con lint + build
+   (la referencia lo lista como decisión cerrada típica).
+   - Alternativa descartada: no agregar CI —descartada por ser buena práctica
+     estándar—. No se incluyó step de tests porque el proyecto aún no tiene suite.
+
+5. **Idioma de los docs.** Elegido: español, consistente con la referencia del
+   bootcamp y con la UI del producto.
