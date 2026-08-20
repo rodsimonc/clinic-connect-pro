@@ -1,5 +1,7 @@
 # Clinic Connect Pro
 
+**🔗 Demo en vivo:** https://clinic-connect-pro.onrender.com/
+
 Aplicación web para una clínica: sitio institucional + reserva de turnos médicos
 online. Los pacientes pueden ver especialidades y profesionales, reservar y
 gestionar sus turnos; el panel de administración gestiona la operación.
