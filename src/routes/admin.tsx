@@ -113,11 +113,11 @@ function AdminPage() {
 
   const guardarNota = async (turno: Turno) => {
     const contenido = nota[turno.id]?.trim();
-    if (!contenido) return;
+    if (!contenido || !user) return;
     const { error } = await supabase.from("notas_clinicas").insert({
       turno_id: turno.id,
       paciente_id: turno.paciente_id,
-      medico_id: turno.medico_id,
+      autor_id: user.id,
       contenido,
     });
     if (error) {
