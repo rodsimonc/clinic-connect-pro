@@ -40,6 +40,13 @@ alterar el sync con Lovable.
     profesional elegido y descarta ids inválidos.
   - Los links de `medicos.tsx` pasan `{ medico, especialidad }`; los de
     `especialidades.tsx` e `index.tsx` pasan `{ especialidad }`.
+- **Volver a la reserva después de ingresar:** si un usuario no logueado tocaba
+  "Ingresar y confirmar", tras loguearse caía siempre en `/mis-turnos` y perdía
+  la reserva. Ahora `/auth` recibe la selección (`?medico`/`?especialidad`) y
+  devuelve al usuario a `/turnos` con el profesional ya elegido.
+- **"Mis turnos" mostraba turnos ajenos a cuentas staff:** la consulta no
+  filtraba por paciente y dependía sólo de RLS (que para staff devuelve todos).
+  Se agregó `.eq("paciente_id", user.id)` para que cada quien vea sólo los suyos.
 
 ### Security
 

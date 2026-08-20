@@ -103,7 +103,10 @@ function TurnosPage() {
   const reservar = async () => {
     if (!user) {
       toast.info("Ingresá a tu cuenta para confirmar el turno");
-      void navigate({ to: "/auth" });
+      const s: TurnosSearch = {};
+      if (medicoId) s.medico = medicoId;
+      if (especialidadId) s.especialidad = especialidadId;
+      void navigate({ to: "/auth", search: s });
       return;
     }
     if (!medicoId || !slot) return;

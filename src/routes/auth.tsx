@@ -10,7 +10,17 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+type AuthSearch = { medico?: string; especialidad?: string };
+
 export const Route = createFileRoute("/auth")({
+  validateSearch: (search: Record<string, unknown>): AuthSearch => {
+    const out: AuthSearch = {};
+    if (typeof search.medico === "string" && search.medico) out.medico = search.medico;
+    if (typeof search.especialidad === "string" && search.especialidad) {
+      out.especialidad = search.especialidad;
+    }
+    return out;
+  },
   head: () => ({
     meta: [
       { title: "Ingresar o crear cuenta — Demo" },
@@ -27,6 +37,7 @@ export const Route = createFileRoute("/auth")({
 
 function AuthPage() {
   const navigate = useNavigate();
+  const search = Route.useSearch();
   const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
@@ -34,8 +45,22 @@ function AuthPage() {
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
 
+  // Si el usuario venía de reservar (llega con ?medico/?especialidad), lo
+  // devolvemos a la reserva con la selección; si no, a sus turnos.
+  const irADestino = () => {
+    if (search.medico || search.especialidad) {
+      const s: AuthSearch = {};
+      if (search.medico) s.medico = search.medico;
+      if (search.especialidad) s.especialidad = search.especialidad;
+      void navigate({ to: "/turnos", search: s });
+    } else {
+      void navigate({ to: "/mis-turnos" });
+    }
+  };
+
   useEffect(() => {
-    if (user) void navigate({ to: "/mis-turnos" });
+    if (user) irADestino();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, navigate]);
 
   const signIn = async (e: React.FormEvent) => {
@@ -48,7 +73,7 @@ function AuthPage() {
       return;
     }
     toast.success("¡Bienvenido de nuevo!");
-    void navigate({ to: "/mis-turnos" });
+    irADestino();
   };
 
   const signUp = async (e: React.FormEvent) => {
@@ -68,7 +93,7 @@ function AuthPage() {
       return;
     }
     toast.success("Cuenta creada. Ya podés reservar tu turno.");
-    void navigate({ to: "/turnos" });
+    irADestino();
   };
 
   const signInGoogle = async () => {

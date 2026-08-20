@@ -46,6 +46,7 @@ function MisTurnosPage() {
       const { data, error } = await supabase
         .from("turnos")
         .select("*")
+        .eq("paciente_id", user?.id ?? "")
         .order("fecha_hora", { ascending: true });
       if (error) throw error;
       return (data ?? []) as Turno[];
