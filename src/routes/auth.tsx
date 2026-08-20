@@ -63,6 +63,14 @@ function AuthPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user, navigate]);
 
+  // Validaciones del formulario de "Crear cuenta".
+  const nombreValido = (v: string) => v.trim().length >= 3;
+  const telefonoValido = (v: string) => v.replace(/\D/g, "").length >= 8;
+  const emailValido = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+  const passwordValida = (v: string) => v.length >= 8 && /[A-Za-z]/.test(v) && /\d/.test(v);
+  const signupValido =
+    nombreValido(nombre) && telefonoValido(telefono) && emailValido(email) && passwordValida(password);
+
   const signIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -78,8 +86,12 @@ function AuthPage() {
 
   const signUp = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!signupValido) {
+      toast.error("Revisá los campos marcados en rojo antes de continuar.");
+      return;
+    }
     setLoading(true);
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -92,7 +104,13 @@ function AuthPage() {
       toast.error(error.message);
       return;
     }
-    toast.success("Cuenta creada. Ya podés reservar tu turno.");
+    // Si Supabase pide confirmación por email, no hay sesión todavía: no mandamos
+    // al usuario a una página protegida, le avisamos que revise el correo.
+    if (!data.session) {
+      toast.success("Cuenta creada. Revisá tu email para confirmarla antes de ingresar.");
+      return;
+    }
+    toast.success("¡Cuenta creada! Ya podés reservar tu turno.");
     irADestino();
   };
 
@@ -154,15 +172,32 @@ function AuthPage() {
                     onChange={(e) => setNombre(e.target.value)}
                     placeholder="Ana Pérez"
                   />
+                  <p
+                    className={`text-xs ${
+                      nombreValido(nombre) ? "text-muted-foreground" : "text-destructive"
+                    }`}
+                  >
+                    Nombre y apellido, mínimo 3 caracteres.
+                  </p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="tel">Teléfono</Label>
                   <Input
                     id="tel"
+                    type="tel"
+                    inputMode="numeric"
+                    required
                     value={telefono}
                     onChange={(e) => setTelefono(e.target.value)}
                     placeholder="11 5555-5555"
                   />
+                  <p
+                    className={`text-xs ${
+                      telefonoValido(telefono) ? "text-muted-foreground" : "text-destructive"
+                    }`}
+                  >
+                    Solo números, al menos 8 dígitos (podés incluir el código de área).
+                  </p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="email2">Email</Label>
@@ -173,6 +208,13 @@ function AuthPage() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                   />
+                  <p
+                    className={`text-xs ${
+                      emailValido(email) ? "text-muted-foreground" : "text-destructive"
+                    }`}
+                  >
+                    Ingresá un email válido (ej. vos@email.com).
+                  </p>
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="password2">Contraseña</Label>
@@ -180,12 +222,19 @@ function AuthPage() {
                     id="password2"
                     type="password"
                     required
-                    minLength={6}
+                    minLength={8}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
+                  <p
+                    className={`text-xs ${
+                      passwordValida(password) ? "text-muted-foreground" : "text-destructive"
+                    }`}
+                  >
+                    Mínimo 8 caracteres, con al menos una letra y un número.
+                  </p>
                 </div>
-                <Button type="submit" className="w-full" disabled={loading}>
+                <Button type="submit" className="w-full" disabled={loading || !signupValido}>
                   {loading ? "Creando cuenta…" : "Crear cuenta"}
                 </Button>
               </form>

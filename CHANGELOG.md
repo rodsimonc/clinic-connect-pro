@@ -74,6 +74,18 @@ alterar el sync con Lovable.
   dejar un callejón sin salida en la demo (el login por email/contraseña sigue
   funcionando). En `auth.tsx` quedan documentados los pasos para reactivarlo.
 
+### Added (UX)
+
+- **Botón de WhatsApp en Contacto:** debajo del teléfono, un botón "Escribinos
+  por WhatsApp" que abre `wa.me/<numero>` (derivado del propio `CLINICA.telefono`)
+  con un mensaje prellenado.
+- **Validación por campo en "Crear cuenta":** cada campo muestra debajo, en rojo,
+  su requisito hasta cumplirlo (nombre ≥3, teléfono solo números ≥8 dígitos, email
+  válido, contraseña ≥8 con letra y número). El botón "Crear cuenta" queda
+  deshabilitado hasta que todo sea válido. Además el alta ahora maneja el caso de
+  confirmación por email (avisa de revisar el correo en vez de mandar a una página
+  protegida sin sesión).
+
 ### Security
 
 - Se dejó de trackear `.env` (`git rm --cached .env`). Contenía la URL y la

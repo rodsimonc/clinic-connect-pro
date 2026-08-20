@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Clock, Mail, MapPin, Phone } from "lucide-react";
+import { Clock, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { CLINICA } from "@/lib/clinic";
@@ -28,6 +28,12 @@ const datos = [
 ];
 
 function ContactoPage() {
+  // Link a WhatsApp derivado del mismo teléfono de la clínica (sin caracteres no
+  // numéricos) + mensaje prellenado.
+  const waHref = `https://wa.me/${CLINICA.telefono.replace(/\D/g, "")}?text=${encodeURIComponent(
+    "Hola, quiero hacer una consulta.",
+  )}`;
+
   return (
     <div className="mx-auto max-w-6xl px-4 py-16">
       <header className="max-w-2xl">
@@ -48,6 +54,13 @@ function ContactoPage() {
               <div>
                 <p className="text-xs uppercase tracking-wider text-muted-foreground">{d.label}</p>
                 <p className="mt-1 font-medium text-foreground">{d.value}</p>
+                {d.label === "Teléfono" && (
+                  <Button asChild size="sm" className="mt-3">
+                    <a href={waHref} target="_blank" rel="noopener noreferrer">
+                      <MessageCircle className="size-4" /> Escribinos por WhatsApp
+                    </a>
+                  </Button>
+                )}
               </div>
             </CardContent>
           </Card>
