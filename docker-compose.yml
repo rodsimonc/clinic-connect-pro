@@ -1,0 +1,22 @@
+# Levanta la app compilada con un solo comando:
+#
+#   docker compose up --build
+#
+# Luego abrí http://localhost:3000
+#
+# Requiere un archivo .env en esta carpeta (copiá .env.example → .env y completá
+# tus credenciales de Supabase). Compose lo usa tanto para el build (variables
+# VITE_* que Vite embebe) como para el runtime del servidor.
+services:
+  web:
+    build:
+      context: .
+      args:
+        VITE_SUPABASE_URL: ${VITE_SUPABASE_URL}
+        VITE_SUPABASE_PROJECT_ID: ${VITE_SUPABASE_PROJECT_ID}
+        VITE_SUPABASE_PUBLISHABLE_KEY: ${VITE_SUPABASE_PUBLISHABLE_KEY}
+    env_file:
+      - .env
+    ports:
+      - "3000:3000"
+    restart: unless-stopped

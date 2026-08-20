@@ -47,8 +47,26 @@ La app queda disponible en `http://localhost:3000`.
 | `bun run dev`      | Servidor de desarrollo con HMR.              |
 | `bun run build`    | Build de producción.                         |
 | `bun run preview`  | Sirve el build de producción localmente.     |
+| `bun run start`    | Sirve el build ya compilado (server Node).   |
 | `bun run lint`     | ESLint sobre todo el proyecto.               |
 | `bun run format`   | Prettier en modo corrección.                 |
+
+## Docker (mostrar la app sin instalar nada)
+
+Para levantar la app compilada con un solo comando, sin `npm install`/`npm run dev`:
+
+```sh
+cp .env.example .env   # completá tus credenciales de Supabase (si no lo hiciste)
+docker compose up --build
+```
+
+Después abrí `http://localhost:3000`. Compose usa tu `.env` tanto para el build
+(las variables `VITE_*` que Vite embebe en el cliente) como para el runtime del
+servidor. Para pararlo: `docker compose down`.
+
+El servidor de producción es `server/node-server.mjs`: sirve los estáticos de
+`dist/client` y delega el resto al render del servidor (SSR) de TanStack Start.
+También podés correrlo sin Docker con `bun run build && bun run start`.
 
 ## Estructura del proyecto
 

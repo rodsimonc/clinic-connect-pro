@@ -1,0 +1,19 @@
+node_modules
+dist
+.output
+.vinxi
+.nitro
+.tanstack
+.git
+.github
+*.log
+.DS_Store
+# Los secretos no entran a la imagen: en runtime se inyectan por env_file y en
+# build por args (docker-compose los toma de tu .env).
+.env
+.env.*
+!.env.example
+Dockerfile
+docker-compose.yml
+README.md
+CHANGELOG.md

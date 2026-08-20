@@ -29,6 +29,19 @@ alterar el sync con Lovable.
   ("Tenés acceso a mí github…") y se documentó objetivo, stack, setup, scripts y estructura.
 - `.gitignore` — se agregó `.env` y variantes para evitar subir secretos.
 
+### Added (deploy / Docker)
+
+- **Servidor de producción** `server/node-server.mjs` (Hono + `@hono/node-server`):
+  sirve `dist/client` y delega el resto al SSR de TanStack Start. Script `npm start`.
+- **Docker**: `Dockerfile` multi-stage (build con `node:22` + npm público, runtime
+  `node:22-slim` con deps de producción) y `docker-compose.yml`. Levantar con
+  `docker compose up --build` → `http://localhost:3000`, sin `npm install` manual.
+  Las variables `VITE_*` se pasan como build args desde `.env`; el runtime usa `env_file`.
+- `.dockerignore` para no meter `node_modules`, `dist`, `.git` ni secretos en la imagen.
+- Dependencias nuevas: `hono` y `@hono/node-server` (sólo para el servidor de prod).
+- Verificado localmente: build (`vite build`) + arranque del servidor sirviendo
+  `/`, `/medicos`, `/turnos` (200, SSR) y assets JS/CSS/favicon; 404 para rutas inexistentes.
+
 ### Fixed
 
 - **Flujo de reserva de turnos:** al elegir un profesional (o especialidad) en
