@@ -29,6 +29,14 @@ alterar el sync con Lovable.
   ("Tenés acceso a mí github…") y se documentó objetivo, stack, setup, scripts y estructura.
 - `.gitignore` — se agregó `.env` y variantes para evitar subir secretos.
 
+### Fixed (deploy)
+
+- **502 Bad Gateway en Render (port binding):** el contenedor escuchaba en 3000
+  (por `ENV PORT=3000` del Dockerfile) mientras Render espera el 10000, así que el
+  proxy no llegaba al servicio. Se fija el puerto **10000** en el server (default),
+  el Dockerfile (`ENV PORT`/`EXPOSE`) y `render.yaml` (`PORT=10000`). Se agregan
+  `keepAliveTimeout`/`headersTimeout` (120s) que Render recomienda para Node.
+
 ### Added (deploy con link público)
 
 - `render.yaml` (Render Blueprint): despliega la app vía Docker en Render y

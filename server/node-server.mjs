@@ -20,8 +20,13 @@ app.use("/*", serveStatic({ root: "./dist/client" }));
 // Cualquier otra ruta la resuelve el render del servidor (SSR).
 app.all("/*", (c) => handler.fetch(c.req.raw, {}, {}));
 
-const port = Number(process.env.PORT ?? 3000);
+// Render espera el puerto 10000 por defecto; se respeta process.env.PORT si viene.
+const port = Number(process.env.PORT ?? 10000);
 
-serve({ fetch: app.fetch, port, hostname: "0.0.0.0" }, (info) => {
-  console.log(`Clinic Connect Pro escuchando en http://localhost:${info.port}`);
+const server = serve({ fetch: app.fetch, port, hostname: "0.0.0.0" }, (info) => {
+  console.log(`Clinic Connect Pro escuchando en http://0.0.0.0:${info.port}`);
 });
+
+// Timeouts holgados para evitar 502 por "connection reset" detrás del proxy de Render.
+server.keepAliveTimeout = 120000;
+server.headersTimeout = 120000;
