@@ -68,6 +68,12 @@ alterar el sync con Lovable.
   filtraba por paciente y dependía sólo de RLS (que para staff devuelve todos).
   Se agregó `.eq("paciente_id", user.id)` para que cada quien vea sólo los suyos.
 
+- **Login con Google era un dead-end (404):** el botón "Continuar con Google"
+  redirigía a `/auth/v1/authorize?provider=google` de Supabase, pero el provider
+  Google no está habilitado, así que devolvía error. Se quitó el botón para no
+  dejar un callejón sin salida en la demo (el login por email/contraseña sigue
+  funcionando). En `auth.tsx` quedan documentados los pasos para reactivarlo.
+
 ### Security
 
 - Se dejó de trackear `.env` (`git rm --cached .env`). Contenía la URL y la

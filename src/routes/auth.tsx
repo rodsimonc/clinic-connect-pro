@@ -96,14 +96,6 @@ function AuthPage() {
     irADestino();
   };
 
-  const signInGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
-      options: { redirectTo: window.location.origin },
-    });
-    if (error) toast.error(error.message);
-  };
-
   return (
     <div className="mx-auto flex max-w-md flex-col items-center px-4 py-16">
       <span className="flex size-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
@@ -200,12 +192,14 @@ function AuthPage() {
             </TabsContent>
           </Tabs>
 
-          <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground">
-            <span className="h-px flex-1 bg-border" /> o <span className="h-px flex-1 bg-border" />
-          </div>
-          <Button variant="outline" className="w-full" onClick={signInGoogle}>
-            Continuar con Google
-          </Button>
+          {/*
+            Login con Google deshabilitado: el provider no está configurado en
+            Supabase, así que el OAuth caía en un 404. Para reactivarlo:
+              1. Supabase → Authentication → Providers → Google (Client ID + Secret de Google Cloud).
+              2. Google Cloud → OAuth: redirect URI https://<project>.supabase.co/auth/v1/callback
+              3. Supabase → Authentication → URL Configuration: agregar la URL del sitio.
+            Luego restaurar el botón con supabase.auth.signInWithOAuth({ provider: "google" }).
+          */}
         </CardContent>
       </Card>
     </div>
