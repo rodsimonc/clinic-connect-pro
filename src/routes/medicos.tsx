@@ -96,7 +96,12 @@ function MedicosPage() {
                   <p className="text-xs text-muted-foreground">MN {m.matricula}</p>
                 </div>
                 <Button asChild size="sm">
-                  <Link to="/turnos">Reservar</Link>
+                  <Link
+                    to="/turnos"
+                    search={{ medico: m.id, especialidad: m.especialidad_id }}
+                  >
+                    Reservar
+                  </Link>
                 </Button>
               </div>
             </CardContent>

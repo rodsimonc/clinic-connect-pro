@@ -155,7 +155,7 @@ function Index() {
         </div>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {especialidades.slice(0, 6).map((e) => (
-            <Link key={e.id} to="/turnos" className="group">
+            <Link key={e.id} to="/turnos" search={{ especialidad: e.id }} className="group">
               <Card className="h-full border-border/70 transition-all group-hover:-translate-y-1 group-hover:border-primary/40 group-hover:shadow-md">
                 <CardContent className="pt-6">
                   <span className="text-2xl">{e.icono}</span>

@@ -59,7 +59,7 @@ function EspecialidadesPage() {
                   )}
                 </ul>
                 <Button asChild variant="ghost" className="mt-4 self-start px-0 hover:bg-transparent">
-                  <Link to="/turnos">
+                  <Link to="/turnos" search={{ especialidad: e.id }}>
                     Sacar turno <ArrowRight className="size-4" />
                   </Link>
                 </Button>

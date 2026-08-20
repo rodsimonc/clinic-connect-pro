@@ -29,6 +29,18 @@ alterar el sync con Lovable.
   ("Tenés acceso a mí github…") y se documentó objetivo, stack, setup, scripts y estructura.
 - `.gitignore` — se agregó `.env` y variantes para evitar subir secretos.
 
+### Fixed
+
+- **Flujo de reserva de turnos:** al elegir un profesional (o especialidad) en
+  las páginas de Médicos, Especialidades y Home, el link "Reservar" iba a
+  `/turnos` **sin arrastrar la selección**, así que la reserva empezaba vacía.
+  Ahora:
+  - `/turnos` acepta search params `?medico` y `?especialidad` (vía `validateSearch`)
+    e inicializa el formulario con esa selección; deriva la especialidad del
+    profesional elegido y descarta ids inválidos.
+  - Los links de `medicos.tsx` pasan `{ medico, especialidad }`; los de
+    `especialidades.tsx` e `index.tsx` pasan `{ especialidad }`.
+
 ### Security
 
 - Se dejó de trackear `.env` (`git rm --cached .env`). Contenía la URL y la

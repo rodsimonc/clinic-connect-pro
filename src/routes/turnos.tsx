@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 import { CalendarDays, Check, Clock, UserRound } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -33,7 +33,17 @@ import {
   toDateKey,
 } from "@/lib/clinic";
 
+type TurnosSearch = { medico?: string; especialidad?: string };
+
 export const Route = createFileRoute("/turnos")({
+  validateSearch: (search: Record<string, unknown>): TurnosSearch => {
+    const out: TurnosSearch = {};
+    if (typeof search.medico === "string" && search.medico) out.medico = search.medico;
+    if (typeof search.especialidad === "string" && search.especialidad) {
+      out.especialidad = search.especialidad;
+    }
+    return out;
+  },
   head: () => ({
     meta: [
       { title: "Sacar turno online — Demo" },
@@ -51,9 +61,10 @@ export const Route = createFileRoute("/turnos")({
 
 function TurnosPage() {
   const navigate = useNavigate();
+  const search = Route.useSearch();
   const { user } = useAuth();
-  const [especialidadId, setEspecialidadId] = useState<string>("");
-  const [medicoId, setMedicoId] = useState<string>("");
+  const [especialidadId, setEspecialidadId] = useState<string>(search.especialidad ?? "");
+  const [medicoId, setMedicoId] = useState<string>(search.medico ?? "");
   const [dateKey, setDateKey] = useState<string>(toDateKey(new Date()));
   const [slot, setSlot] = useState<string>("");
   const [motivo, setMotivo] = useState("");
@@ -70,6 +81,19 @@ function TurnosPage() {
     [medicos, especialidadId],
   );
   const medico = medicos.find((m) => m.id === medicoId) ?? null;
+
+  // Preselección vía search params (?medico / ?especialidad): una vez cargados
+  // los médicos, deriva la especialidad del profesional elegido y descarta ids inválidos.
+  useEffect(() => {
+    if (!medicoId || medicos.length === 0) return;
+    const m = medicos.find((x) => x.id === medicoId);
+    if (!m) {
+      setMedicoId("");
+      return;
+    }
+    if (!especialidadId) setEspecialidadId(m.especialidad_id);
+  }, [medicos, medicoId, especialidadId]);
+
   const dias = useMemo(() => proximosDias(14), []);
   const slots = useMemo(
     () => (medicoId ? generarSlots(dateKey, disponibilidades, ocupados) : []),
