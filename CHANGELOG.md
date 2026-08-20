@@ -29,6 +29,13 @@ alterar el sync con Lovable.
   ("Tenés acceso a mí github…") y se documentó objetivo, stack, setup, scripts y estructura.
 - `.gitignore` — se agregó `.env` y variantes para evitar subir secretos.
 
+### Added (deploy con link público)
+
+- `render.yaml` (Render Blueprint): despliega la app vía Docker en Render y
+  entrega una URL pública `*.onrender.com` para compartir la demo. Declara las
+  variables de entorno (Supabase) que se cargan al crear el servicio. Render
+  inyecta `PORT` y pasa las `VITE_*` como build args.
+
 ### Added (deploy / Docker)
 
 - **Servidor de producción** `server/node-server.mjs` (Hono + `@hono/node-server`):

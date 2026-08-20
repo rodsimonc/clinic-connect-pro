@@ -68,6 +68,22 @@ El servidor de producción es `server/node-server.mjs`: sirve los estáticos de
 `dist/client` y delega el resto al render del servidor (SSR) de TanStack Start.
 También podés correrlo sin Docker con `bun run build && bun run start`.
 
+## Deploy con link público (Render)
+
+El repo incluye `render.yaml` (Render Blueprint) para publicar la app con una URL
+para compartir:
+
+1. Entrá a `https://dashboard.render.com` → **New → Blueprint**.
+2. Conectá GitHub y elegí `rodsimonc/clinic-connect-pro`. Render lee `render.yaml`.
+3. Cargá las variables de entorno que pide (las mismas de tu `.env`).
+4. **Apply** → Render buildea con el `Dockerfile` y te da una URL
+   `https://clinic-connect-pro.onrender.com`.
+
+Render inyecta `PORT` automáticamente (el servidor la respeta) y pasa las
+variables `VITE_*` como build args para que Vite las embeba en el cliente. En el
+plan free el servicio se suspende tras un rato de inactividad y tarda unos
+segundos en despertar en la primera visita.
+
 ## Estructura del proyecto
 
 ```

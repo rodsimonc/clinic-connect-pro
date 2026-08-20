@@ -1,0 +1,33 @@
+# Render Blueprint — despliegue de Clinic Connect Pro vía Docker.
+#
+# Uso:
+#   1. Entrá a https://dashboard.render.com → New → Blueprint.
+#   2. Conectá GitHub y elegí el repo rodsimonc/clinic-connect-pro.
+#   3. Render detecta este archivo y crea el servicio web (build con el Dockerfile).
+#   4. Cargá los valores de las variables marcadas (los tomás de tu .env).
+#   5. Apply → Render buildea y te da una URL pública https://<nombre>.onrender.com
+#
+# Nota: Render inyecta la variable PORT automáticamente y el servidor la respeta
+# (server/node-server.mjs lee process.env.PORT). Las VITE_* también se pasan como
+# build args al Docker build, así Vite las embebe en el cliente.
+services:
+  - type: web
+    name: clinic-connect-pro
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    healthCheckPath: /
+    autoDeploy: true
+    envVars:
+      - key: VITE_SUPABASE_URL
+        sync: false
+      - key: VITE_SUPABASE_PROJECT_ID
+        sync: false
+      - key: VITE_SUPABASE_PUBLISHABLE_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_PROJECT_ID
+        sync: false
+      - key: SUPABASE_PUBLISHABLE_KEY
+        sync: false
